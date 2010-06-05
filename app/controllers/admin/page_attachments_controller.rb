@@ -1,11 +1,13 @@
 class Admin::PageAttachmentsController < Admin::ResourceController
   
   def index
-    @attachments = PageAttachment.all(:conditions => {:parent_id => nil}, :include => [:page], :order => 'title, filename').paginate(@pagination_parameters)
+    collection = self.respond_to?(:current_site) ? current_site.page_attachments : PageAttachment
+    @attachments = collection.all(:conditions => {:parent_id => nil}, :include => [:page], :order => 'title, filename').paginate(@pagination_parameters)
   end
   
   def grid
-    @attachments = PageAttachment.all(:conditions => {:parent_id => nil}, :include => [:page], :order => 'title, filename').paginate(@pagination_parameters)
+    collection = self.respond_to?(:current_site) ? current_site.page_attachments : PageAttachment
+    @attachments = collection.all(:conditions => {:parent_id => nil}, :include => [:page], :order => 'title, filename').paginate(@pagination_parameters)
   end
   
   def update
